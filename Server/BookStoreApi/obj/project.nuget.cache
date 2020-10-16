@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "dgSpecHash": "FtP/CFtg1Os1zN99+LAVIpl2CUZvf9nh9vBmqaUnArsgdBkt2+sXpVPV9Fpv6bpzaM3rVKXtB6VFlz2++LpQhQ==",
+  "success": true,
+  "projectFilePath": "C:\\Digital\\CodeOasis\\Server\\BookStoreApi\\BookStoreApi.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Igor\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.1.2\\microsoft.aspnetcore.jsonpatch.3.1.2.nupkg.sha512",
+    "C:\\Users\\Igor\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\3.1.2\\microsoft.aspnetcore.mvc.newtonsoftjson.3.1.2.nupkg.sha512",
+    "C:\\Users\\Igor\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\Igor\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.7.1\\microsoft.identitymodel.jsonwebtokens.6.7.1.nupkg.sha512",
+    "C:\\Users\\Igor\\.nuget\\packages\\microsoft.identitymodel.logging\\6.7.1\\microsoft.identitymodel.logging.6.7.1.nupkg.sha512",
+    "C:\\Users\\Igor\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.7.1\\microsoft.identitymodel.tokens.6.7.1.nupkg.sha512",
+    "C:\\Users\\Igor\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\Igor\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
+    "C:\\Users\\Igor\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.7.1\\system.identitymodel.tokens.jwt.6.7.1.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,58 @@
+<mat-card>
+    <span>Our Catalog</span>
+
+    <form [formGroup]="tableForm">
+
+
+     <mat-table formArrayName="books" [dataSource]="books">
+      
+         
+         <!-- ID Column  -->
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+            <mat-cell *matCellDef="let book; let index = index">
+                <button mat-flat-button  (click)=removeBook(books,index)>Remove</button>
+                <button mat-flat-button  (click)=update(index)>Update</button>
+            </mat-cell>
+         </ng-container>
+         <!-- Author Column -->
+         <ng-container matColumnDef="author">
+            <mat-header-cell *matHeaderCellDef> Author </mat-header-cell>
+            <mat-cell *matCellDef="let book; let index = index" [formGroupName]="index">
+                <input value="{{book.author}}" formControlName="author">
+            </mat-cell>
+         </ng-container>
+
+         <!-- Title column -->
+         <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+            <mat-cell *matCellDef="let book; let index = index" [formGroupName]="index">
+                <input value="{{book.title}}" formControlName="title">
+            </mat-cell>
+         </ng-container>
+
+         <!-- Price column -->
+         <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+            <mat-cell *matCellDef="let book; let index = index" [formGroupName]="index">
+                <input value="{{book.price}}" formControlName="price">
+            </mat-cell>
+         </ng-container>
+       
+        <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columns"></mat-row>
+     </mat-table>
+    </form>
+     <mat-card>
+        <button mat-flat-button color="primary" (click)=addBook()>Add</button>
+      </mat-card>
+      <mat-card>
+        <span  *ngIf="display">{{msg}}</span>
+      </mat-card>
+
+</mat-card>
+
+<mat-card>
+    <button mat-flat-button color="primary" (click)=createList()>Create New List</button>
+  </mat-card>
+

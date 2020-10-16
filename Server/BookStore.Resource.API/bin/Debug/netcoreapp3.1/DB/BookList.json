@@ -1,0 +1,30 @@
+[
+  {
+    "Id": 1,
+    "Author": "J.K. Rowling",
+    "Title": "Harry Potter",
+    "Price": 10.45,
+    "Action": 4
+  },
+  {
+    "Id": 2,
+    "Author": "Herman Melville",
+    "Title": "Moby-Dick",
+    "Price": 8.52,
+    "Action": 4
+  },
+  {
+    "Id": 3,
+    "Author": "Jules Verne",
+    "Title": "The Mysterious Island",
+    "Price": 7.15,
+    "Action": 4
+  },
+  {
+    "Id": 4,
+    "Author": "Carlo Callodi",
+    "Title": "The Adventure of Pinnochio",
+    "Price": 6.42,
+    "Action": 4
+  }
+]

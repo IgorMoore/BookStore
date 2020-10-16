@@ -1,0 +1,33 @@
+<div>
+   
+   <div class="topnav">
+      <a [routerLink]="['']" routerLinkActive='active' [routerLinkActiveOptions]= "{exact: true}" >Bookstore</a>
+      <a [routerLink]="['/orders']" routerLinkActive='active' [routerLinkActiveOptions]= "{exact: true}" *ngIf='isLoggedIn && user =="0"'>Orders</a>
+      <a [routerLink]="['/books']" routerLinkActive='active' [routerLinkActiveOptions]= "{exact: true}" *ngIf='isLoggedIn && user =="1"'>Books</a>
+   </div>
+
+   <form [formGroup]="form" novalidate>
+    <mat-card *ngIf='!isLoggedIn'>
+        <mat-form-field class="book-form-field">
+              <!-- <mat-lable>Email</mat-lable> -->
+             <input type="email"  matInput placeholder="Email" formControlName="email" #email (blur)="check($event)">
+        </mat-form-field>
+      
+        <mat-form-field class="book-form-field">
+          <!-- <mat-lable>Password</mat-lable> -->
+            <input type="password" placeholder="Password" matInput  formControlName="password" #password (blur)="check($event)">
+         
+       </mat-form-field>
+   
+       <button mat-flat-button color="primary" (click)='login(email.value, password.value)'>Login</button>
+       <p *ngIf="showErr" class='errorMsg'>{{showErrMsg}}</p>
+    </mat-card>
+   
+  </form>
+  
+    <mat-card>
+      <button mat-flat-button color="primary" (click)='logout()'>Logout</button>
+    </mat-card>
+
+  <router-outlet></router-outlet>
+</div>

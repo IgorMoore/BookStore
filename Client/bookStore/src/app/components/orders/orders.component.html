@@ -1,0 +1,108 @@
+<div>
+<mat-card *ngIf="dataSource">
+    <span>Main Catalog</span>
+ <br/>
+ 
+
+    <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Write here" #input>
+      </mat-form-field>
+
+    
+  
+     <mat-table #table  [dataSource]="dataSource">
+
+        <ng-container matColumnDef="select">
+            
+            <mat-header-cell *matHeaderCellDef> Choose </mat-header-cell>
+            <mat-cell *matCellDef="let book">
+               <span *ngIf='book.select == true'>
+            BUY
+               </span>
+            </mat-cell>
+         </ng-container>
+         <!-- ID Column  -->
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+            <mat-cell *matCellDef="let book">{{book.id}}</mat-cell>
+         </ng-container>
+         <!-- Author Column -->
+         <ng-container matColumnDef="author">
+            <mat-header-cell *matHeaderCellDef> Author </mat-header-cell>
+            <mat-cell *matCellDef="let book">{{book.author}}</mat-cell>
+         </ng-container>
+
+         <!-- Title column -->
+         <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+            <mat-cell *matCellDef="let book">{{book.title}}</mat-cell>
+         </ng-container>
+
+         <!-- Price column -->
+         <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+            <mat-cell *matCellDef="let book">${{book.price}}</mat-cell>
+         </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columns" (click)="chooseRow(row)"></mat-row>
+     </mat-table>
+
+</mat-card>
+
+
+<mat-card>
+    <button mat-flat-button color="primary" (click)='purchase()'>Purchase</button>
+    <span style="float: right;">Total : {{total | number : '1.2-2'}}</span>
+  </mat-card>
+  
+<mat-card>
+    <span  *ngIf="display">{{showMsg}}</span>
+  </mat-card>
+   
+     
+ 
+  
+
+<mat-card *ngIf="orders">
+    <span>History orders:</span>
+     <mat-table [dataSource]="orders">
+        <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef style="display: none;"> Choose </mat-header-cell>
+            <mat-cell *matCellDef="let book">
+            </mat-cell>
+         </ng-container>
+
+      
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+            <mat-cell *matCellDef="let book">{{book.id}}</mat-cell>
+         </ng-container>
+       
+         <ng-container matColumnDef="author">
+            <mat-header-cell *matHeaderCellDef> Author </mat-header-cell>
+            <mat-cell *matCellDef="let book">{{book.author}}</mat-cell>
+         </ng-container> 
+
+     
+         <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+            <mat-cell *matCellDef="let book">{{book.title}}</mat-cell>
+         </ng-container>
+
+        
+          <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let book"></mat-cell>
+         </ng-container> 
+
+        <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columns"></mat-row>
+     </mat-table>
+
+</mat-card>  
+
+</div>
+
+

@@ -1,0 +1,32 @@
+<mat-card>
+    <span>Our Catalog</span>
+     <mat-table [dataSource]="books">
+         <!-- ID Column  -->
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+            <mat-cell *matCellDef="let book">{{book.id}}</mat-cell>
+         </ng-container>
+         <!-- Author Column -->
+         <ng-container matColumnDef="author">
+            <mat-header-cell *matHeaderCellDef> Author </mat-header-cell>
+            <mat-cell *matCellDef="let book">{{book.author}}</mat-cell>
+         </ng-container>
+
+         <!-- Title column -->
+         <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+            <mat-cell *matCellDef="let book">{{book.title}}</mat-cell>
+         </ng-container>
+
+         <!-- Price column -->
+         <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+            <mat-cell *matCellDef="let book">{{book.price}}</mat-cell>
+         </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columns"></mat-row>
+     </mat-table>
+
+</mat-card>
+
