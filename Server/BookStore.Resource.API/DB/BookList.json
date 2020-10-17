@@ -4,6 +4,7 @@
     "Author": "J.K. Rowling",
     "Title": "Harry Potter",
     "Price": 10.45,
+    "User": null,
     "Action": 4
   },
   {
@@ -11,6 +12,7 @@
     "Author": "Herman Melville",
     "Title": "Moby-Dick",
     "Price": 8.52,
+    "User": null,
     "Action": 4
   },
   {
@@ -18,6 +20,7 @@
     "Author": "Jules Verne",
     "Title": "The Mysterious Island",
     "Price": 7.15,
+    "User": null,
     "Action": 4
   },
   {
@@ -25,6 +28,7 @@
     "Author": "Carlo Callodi",
     "Title": "The Adventure of Pinnochio",
     "Price": 6.42,
+    "User": null,
     "Action": 4
   }
 ]

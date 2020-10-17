@@ -11,8 +11,10 @@
         <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
             <mat-cell *matCellDef="let book; let index = index">
-                <button mat-flat-button  (click)=removeBook(books,index)>Remove</button>
-                <button mat-flat-button  (click)=update(index)>Update</button>
+               
+                <button mat-flat-button color="warn" (click)=removeBook(index)>Remove</button>
+                <button mat-flat-button color="stroked" (click)=update(index)>Update</button>
+             
             </mat-cell>
          </ng-container>
          <!-- Author Column -->
@@ -44,7 +46,8 @@
      </mat-table>
     </form>
      <mat-card>
-        <button mat-flat-button color="primary" (click)=addBook()>Add</button>
+        <button mat-flat-button color="primary"  class="btn-style" (click)=addBook()>Add Line</button>
+        <button mat-raised-button color="link" (click)=createList()>Send</button>
       </mat-card>
       <mat-card>
         <span  *ngIf="display">{{msg}}</span>
@@ -53,6 +56,6 @@
 </mat-card>
 
 <mat-card>
-    <button mat-flat-button color="primary" (click)=createList()>Create New List</button>
+   
   </mat-card>
 

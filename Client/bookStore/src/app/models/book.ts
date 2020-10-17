@@ -4,7 +4,8 @@ export class Book{
     author: string;
     title: string;
     price: number;
-    action : Action
+    action : Action;
+    tmpLine: boolean;
     constructor() {}
 }
 

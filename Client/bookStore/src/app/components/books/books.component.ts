@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Action, Book } from 'src/app/models/book';
 import { BookstoreService } from 'src/app/services/bookstore.service';
-import { FormGroup, FormControl, Validators,FormBuilder, FormArray, FormControlName } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
+import { FormGroup,FormBuilder, FormArray, FormControlName } from '@angular/forms';
+
 
 @Component({
   selector: 'app-books',
@@ -15,16 +14,18 @@ export class BooksComponent implements OnInit {
   tableForm: FormGroup;
   display = false;
   msg: string;
-  originalList:Book[] = [];
+  tempList:Book[] = [];
   books:Book[] = [];
   columns = ['id','author','title','price']
   constructor(private bs: BookstoreService, private formBuilder : FormBuilder) { }
 
-  get booksArray() {
+ get booksArray() {
     return this.tableForm.get('books') as FormArray;
  }
 
-
+ get formBookList(){
+  return this.booksArray.controls;
+}
 
   ngOnInit(): void {
      this.GetCatalog();
@@ -32,15 +33,46 @@ export class BooksComponent implements OnInit {
   }
   
 
+  createObjectArr(): Book[]{
+    let Books:Book[] = [];
+    
+    var b = new Book;
+    for (let index = 0; index < this.formBookList.length; index++) {
+      b.action = this.formBookList[index].value['action']
+      b.author = this.formBookList[index].value['author']
+      b.id = this.formBookList[index].value['id']
+      b.select = this.formBookList[index].value['select']
+      b.title = this.formBookList[index].value['title']
+      Books.push(b);
+      }
+    return Books;
+  }
+
+  createObject(index): Book{
+  
+   
+    var b = new Book;
+      b.action = this.formBookList[index].value['action']
+      b.author = this.formBookList[index].value['author']
+      b.id = this.formBookList[index].value['id']
+      b.select = this.formBookList[index].value['select']
+      b.title = this.formBookList[index].value['title']
+    return b;
+  }
+
   GetCatalog(){
     this.bs.getCatalog().subscribe(res => {
       this.books = res;
+      this.books.forEach(b => {
+        b.tmpLine = false;
+      })
+      if(this.tempList && this.tempList.length > 0){
+        this.books =  this.books.concat(this.tempList)
+      }
       this.tableForm= this.formBuilder.group({
         books: this.formBuilder.array([])
     })
     this.setBooksForm();
-    this.tableForm.get('books').valueChanges.subscribe(book => {
-      console.log('book', book)});
     })
     
   }
@@ -56,39 +88,58 @@ export class BooksComponent implements OnInit {
   private setBooksFormArray(book){
     return this.formBuilder.group({
       id:[book.id],
-      author:[book.author,(Validators.required)],
-      title:[book.title,(Validators.required)], 
-      price:[book.price]
+      author:[book.author],
+      title:[book.title], 
+      price:[book.price],
+      tmpLine:[book.tmpLine],
+      action:[book.action]
     });
   }
 
- removeBook(raw,index){
-if(raw){
-  raw[index].action = Action.remove;
-  if(raw[index].author && raw[index].title){
-    const obj : Book [] = [];
-    const singleObj = new Book;
-    singleObj.action = raw[index].action;
-    singleObj.author = raw[index].author;
-    singleObj.id = raw[index].id;
-    singleObj.price = raw[index].price;
-    singleObj.title = raw[index].title;
-    obj.push(singleObj);
+ removeBook(index){
+if( this.formBookList[index].value){
+  this.formBookList[index].value['action'] = Action.remove;
+  let obj : Book [] = [];
+  if(!this.formBookList[index].value['tmpLine']){
+    var tmp= this.createObject(index);
+      for (let index = 0; index < this.formBookList.length; index++) {
+        if( this.formBookList[index].value['tmpLine'] == true){
+        var b = new Book;
+        const p:number = +this.formBookList[index].value['price']
+        b.action = this.formBookList[index].value['action']
+        b.author = this.formBookList[index].value['author']
+        b.id = this.formBookList[index].value['id']
+        b.price = p
+        b.select = this.formBookList[index].value['select']
+        b.title = this.formBookList[index].value['title']
+        b.tmpLine = this.formBookList[index].value['tmpLine']
+       
+        this.tempList.push(b);
+       }
+      }
+   
+    obj.push(tmp)
     this.bs.createList(obj).subscribe(res => {
       if(res){
-        this.GetCatalog();
+         this.GetCatalog();
       }
     })
   }else{
-    
       this.booksArray.controls.splice(index,1);
-      this.books = this.books.filter(function (obj) {
-              return obj.action != Action.remove;
-          })
-  
+      this.books = [];
+       for (let index = 0; index < this.formBookList.length; index++) {
+        var b = new Book;
+        const p:number = +this.formBookList[index].value['price'] //convert string to number
+        b.action = this.formBookList[index].value['action']
+        b.author = this.formBookList[index].value['author']
+        b.id = this.formBookList[index].value['id']
+        b.price = p
+        b.select = this.formBookList[index].value['select']
+        b.title = this.formBookList[index].value['title']
+        this.books.push(b);
         }
-      
-        this.chooseMsgToShow(2)
+      }
+      this.chooseMsgToShow(2)
     }
   }
 
@@ -110,7 +161,8 @@ if(raw){
 
 
   addBook(){
-    if(this.booksArray.valid){
+   if(this.booksArray.valid){
+   this.msg = ''
    var obj = this.books[this.books.length- 1];
    const newBook: Book = new Book();
    newBook.select = false,
@@ -119,26 +171,24 @@ if(raw){
    newBook.title = '',
    newBook.price = 0,
    newBook.action = Action.add
-   
-  this.books.push(newBook);
+   newBook.tmpLine = true;
+   this.books.push(newBook);
    this.booksArray.push(this.formBuilder.group(newBook));
    this.books = this.books.filter(function (obj) {
     return obj.action != Action.remove;
   })
- 
 }
   }
 
 update(i){
      const upBook = new Book;
-     var list = this.booksArray.controls;
-      for (let index = 0; index < list.length; index++) {
+      for (let index = 0; index < this.formBookList.length; index++) {
        if(i === index) {
-        const p:number = +list[index].value['price'] //convert string to number
-        upBook.id =  list[index].value['id']
+        const p:number = +this.formBookList[index].value['price'] //convert string to number
+        upBook.id =  this.formBookList[index].value['id']
          upBook.action = Action.update,
-         upBook.author = list[index].value['author']
-         upBook.title = list[index].value['title']
+         upBook.author = this.formBookList[index].value['author']
+         upBook.title = this.formBookList[index].value['title']
          upBook.price = p
        }
         
@@ -158,23 +208,27 @@ update(i){
     if(this.booksArray.valid){
     
       const obj:Book [] =  [];
-      var bList = this.booksArray.controls
-      for (let index = 0; index < bList.length; index++) {
+      for (let index = 0; index < this.formBookList.length; index++) {
+        if(this.formBookList[index].value['action'] == Action.add){
         var b = new Book;
-        const p:number = +bList[index].value['price'] //convert string to number
-        b.action = bList[index].value['action']
-        b.author = bList[index].value['author']
-        b.id = bList[index].value['id']
+        const p:number = +this.formBookList[index].value['price']
+        b.action = this.formBookList[index].value['action']
+        b.author = this.formBookList[index].value['author']
+        b.id = this.formBookList[index].value['id']
         b.price = p
-        b.select = bList[index].value['select']
-        b.title = bList[index].value['title']
+        b.select = this.formBookList[index].value['select']
+        b.title = this.formBookList[index].value['title']
         obj.push(b);
-        
+      }
       }
       console.log(obj);
        if(obj){
         this.bs.createList(obj).subscribe(res => {
           if(res){
+            this.formBookList.forEach(b => {
+              b.value['tmpLine'] = false;
+              b.value['action'] = Action.none;
+            })
             this.chooseMsgToShow(5)
           }
         })

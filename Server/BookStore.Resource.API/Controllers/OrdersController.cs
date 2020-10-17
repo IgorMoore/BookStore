@@ -28,13 +28,9 @@ namespace BookStore.Resource.API.Controllers
     [Route("")]
     public IActionResult GetOrders()
     {
-      if (!store.Orders.ContainsKey(UserId)) return Ok(Enumerable.Empty<Book>());
-
-      var orderedBookIds = store.Orders.Single(o => o.Key == UserId).Value;
-      //var orderedBooks = store.Books.Where(b => orderedBookIds.Contains(b.Id));
-      var books = store.GetBooks();
-      var orderedBooks = books.FindAll(b => orderedBookIds.Contains(b.Id));
-      return Ok(orderedBooks);
+            var history = store.GetHistoryBooks();
+            var orderedBooks = history.Where(b => b.User == UserId.ToString());
+            return Ok(orderedBooks);
     }
 
     [HttpPost]
@@ -62,8 +58,6 @@ namespace BookStore.Resource.API.Controllers
       if (request != null && request.Length > 0)
       {
         BookStore.Resource.API.Models.BookStore bk = new Models.BookStore();
-        //response = bk.CreateList(request, UserId);
-        /////////////////////////////////
         var a = request.ToList();
          var res = bk.CreateNewBookList(a);
         if (res != null && res.Count > 0)
